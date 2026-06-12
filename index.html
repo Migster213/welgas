@@ -43,7 +43,8 @@ p{
 .buttons{
     margin-top:35px;
     position:relative;
-    width:500px;
+    width:100%;
+    max-width:500px;
     height:250px;
 }
 
@@ -81,6 +82,7 @@ button:hover{
     font-size:1.1rem;
 }
 
+/* PAGE 2 */
 #page2{
     display:none;
     justify-content:center;
@@ -102,15 +104,24 @@ button:hover{
     color:white;
     display:none;
 }
+
+/* credits */
+#credits{
+    position:fixed;
+    bottom:10px;
+    right:10px;
+    font-size:12px;
+    color:#666;
+}
 </style>
 </head>
+
 <body>
 
 <!-- PAGE 1 -->
 <div id="page1" class="container">
 
     <h1>quick question...</h1>
-
     <p>is welgas cute?</p>
 
     <div class="buttons">
@@ -133,10 +144,14 @@ button:hover{
 
 </div>
 
+<!-- credits -->
+<div id="credits">Made by Kempis</div>
+
 <script>
 
 const noBtn = document.getElementById("noBtn");
 const message = document.getElementById("message");
+const buttonsBox = document.querySelector(".buttons");
 
 const funnyMessages = [
     "nice try 😭",
@@ -149,23 +164,36 @@ const funnyMessages = [
     "not happening"
 ];
 
-noBtn.addEventListener("mouseenter", () => {
+// MOVE FUNCTION (desktop + mobile safe)
+function moveButton() {
 
-    const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-    const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+    const boxRect = buttonsBox.getBoundingClientRect();
 
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
+    const maxX = boxRect.width - noBtn.offsetWidth;
+    const maxY = boxRect.height - noBtn.offsetHeight;
 
-    noBtn.style.left = randomX + "px";
-    noBtn.style.top = randomY + "px";
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
 
     const randomMessage =
         funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
 
     message.textContent = randomMessage;
+}
+
+// desktop hover
+noBtn.addEventListener("mouseenter", moveButton);
+
+// mobile touch support
+noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    moveButton();
 });
 
+// YES button
 document.getElementById("yesBtn").addEventListener("click", () => {
 
     document.getElementById("page1").style.display = "none";
@@ -183,13 +211,11 @@ document.getElementById("yesBtn").addEventListener("click", () => {
     ];
 
     let index = 0;
-
     const status = document.getElementById("status");
 
     status.textContent = messages[0];
 
     const interval = setInterval(() => {
-
         index++;
 
         if(index < messages.length){
@@ -200,9 +226,9 @@ document.getElementById("yesBtn").addEventListener("click", () => {
         }
 
     }, 1800);
-
 });
 
+// restart
 document.getElementById("restartBtn").addEventListener("click", () => {
     location.reload();
 });
