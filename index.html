@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welgas Verification Test</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#111;
+    color:white;
+    height:100vh;
+    overflow:hidden;
+}
+
+.container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    height:100vh;
+    text-align:center;
+    padding:20px;
+}
+
+h1{
+    font-size:3rem;
+    margin-bottom:15px;
+}
+
+p{
+    font-size:1.3rem;
+    color:#ccc;
+}
+
+.buttons{
+    margin-top:35px;
+    position:relative;
+    width:500px;
+    height:250px;
+}
+
+button{
+    border:none;
+    padding:14px 28px;
+    font-size:18px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+#yesBtn{
+    background:#22c55e;
+    color:white;
+    margin-right:20px;
+}
+
+#noBtn{
+    background:#ef4444;
+    color:white;
+    position:absolute;
+    left:260px;
+    top:0;
+}
+
+#message{
+    margin-top:20px;
+    color:#facc15;
+    height:30px;
+    font-size:1.1rem;
+}
+
+#page2{
+    display:none;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    height:100vh;
+    text-align:center;
+    padding:20px;
+}
+
+#status{
+    font-size:2rem;
+    margin-top:20px;
+}
+
+#restartBtn{
+    margin-top:40px;
+    background:#3b82f6;
+    color:white;
+    display:none;
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div id="page1" class="container">
+
+    <h1>quick question...</h1>
+
+    <p>is welgas cute?</p>
+
+    <div class="buttons">
+        <button id="yesBtn">👍 yes</button>
+        <button id="noBtn">👎 no</button>
+    </div>
+
+    <div id="message"></div>
+
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2">
+
+    <h1>W choice 😌</h1>
+
+    <div id="status">loading...</div>
+
+    <button id="restartBtn">restart</button>
+
+</div>
+
+<script>
+
+const noBtn = document.getElementById("noBtn");
+const message = document.getElementById("message");
+
+const funnyMessages = [
+    "nice try 😭",
+    "bro thought 😭",
+    "nah",
+    "access denied 🚫",
+    "incorrect option unavailable",
+    "you almost had it",
+    "try again buddy 😭",
+    "not happening"
+];
+
+noBtn.addEventListener("mouseenter", () => {
+
+    const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+    const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+
+    const randomMessage =
+        funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+
+    message.textContent = randomMessage;
+});
+
+document.getElementById("yesBtn").addEventListener("click", () => {
+
+    document.getElementById("page1").style.display = "none";
+    document.getElementById("page2").style.display = "flex";
+
+    const messages = [
+        "✔️ correct answer detected",
+        "✔️ vision test passed",
+        "✔️ opinion accepted",
+        "✔️ +100 aura",
+        "✔️ welgas approved this message",
+        "✔️ thank you for your cooperation 🤝",
+        "✔️ have a good day bro 😎",
+        "✅ you've completed the welgas verification process"
+    ];
+
+    let index = 0;
+
+    const status = document.getElementById("status");
+
+    status.textContent = messages[0];
+
+    const interval = setInterval(() => {
+
+        index++;
+
+        if(index < messages.length){
+            status.textContent = messages[index];
+        } else {
+            clearInterval(interval);
+            document.getElementById("restartBtn").style.display = "inline-block";
+        }
+
+    }, 1800);
+
+});
+
+document.getElementById("restartBtn").addEventListener("click", () => {
+    location.reload();
+});
+
+</script>
+
+</body>
+</html>
